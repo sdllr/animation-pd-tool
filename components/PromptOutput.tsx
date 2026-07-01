@@ -109,6 +109,11 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
   const [aiAutoFill, setAiAutoFill]         = useState(false);
   const [dismissedWarning, setDismissedWarning] = useState(false);
 
+  // AI generation state
+  const [aiResult, setAiResult]     = useState('');
+  const [aiLoading, setAiLoading]   = useState(false);
+  const [aiError, setAiError]       = useState('');
+
   // Reference image state
   const [refImageDataUrl, setRefImageDataUrl] = useState<string>('');
   const [refImageName, setRefImageName]       = useState<string>('');
@@ -320,33 +325,60 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
       )}
 
       {/* Info bar */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-4 text-xs text-slate-500">
           <span>{charCount.toLocaleString()}자</span>
           <span>~{tokenEstimate.toLocaleString()} 토큰 추정</span>
-          {PROMPT_TYPES.find(p => p.value === promptType)?.desc && (
-            <span className="text-violet-400">
-              {PROMPT_TYPES.find(p => p.value === promptType)?.icon} {PROMPT_TYPES.find(p => p.value === promptType)?.desc}
-            </span>
-          )}
         </div>
-        <button
-          onClick={copyToClipboard}
-          disabled={!prompt}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-            copied ? 'bg-emerald-600 text-white'
-            : prompt ? 'bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-500/20'
-            : 'bg-slate-700 text-slate-500 cursor-not-allowed'
-          }`}
-        >
-          {copied ? '✓ 복사됨!' : '클립보드에 복사'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={copyToClipboard}
+            disabled={!prompt}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              copied ? 'bg-emerald-600 text-white'
+              : prompt ? 'bg-slate-700 hover:bg-slate-600 text-slate-200'
+              : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+            }`}
+          >
+            {copied ? '✓ 복사됨!' : '복사'}
+          </button>
+          <button
+            onClick={async () => {
+              if (!prompt) return;
+              setAiLoading(true);
+              setAiError('');
+              setAiResult('');
+              try {
+                const res = await fetch('/api/generate', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ prompt }),
+                });
+                const data = await res.json();
+                if (data.error) setAiError(data.error);
+                else setAiResult(data.result);
+              } catch {
+                setAiError('요청 중 오류가 발생했습니다.');
+              } finally {
+                setAiLoading(false);
+              }
+            }}
+            disabled={!prompt || aiLoading}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              aiLoading ? 'bg-violet-700 text-violet-300 cursor-wait'
+              : prompt ? 'bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-500/20'
+              : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+            }`}
+          >
+            {aiLoading ? '생성 중...' : '✨ AI로 생성'}
+          </button>
+        </div>
       </div>
 
       {/* Prompt preview */}
       <div className="relative">
         {prompt ? (
-          <pre className="bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed overflow-auto max-h-[55vh]">
+          <pre className="bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed overflow-auto max-h-[40vh]">
             {prompt}
           </pre>
         ) : (
@@ -357,18 +389,28 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
         )}
       </div>
 
-      {/* Tips */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
-        <p className="text-xs font-semibold text-slate-400">Claude.ai 활용 팁</p>
-        <ul className="text-xs text-slate-500 space-y-1 list-disc list-inside">
-          <li>위 프롬프트를 <strong className="text-slate-400">claude.ai</strong>의 채팅창에 그대로 붙여넣으세요.</li>
-          <li>결과가 마음에 들지 않으면 <strong className="text-slate-400">"더 구체적으로 작성해줘"</strong> 또는 <strong className="text-slate-400">"~한 부분을 수정해줘"</strong>로 이어서 요청하세요.</li>
-          <li>여러 씬의 스토리보드가 필요하다면 씬을 바꿔가며 각각 프롬프트를 생성하세요.</li>
-          <li>전체 패키지 프롬프트는 모든 씬 정보를 한 번에 포함하므로 처음 기획 단계에 적합합니다.</li>
-          <li><strong className="text-slate-400">키 이미지 / 배경 시트</strong>는 레퍼런스 이미지를 업로드하고 유사도를 설정한 뒤, Claude.ai에 이미지를 함께 첨부하여 사용하세요.</li>
-          <li><strong className="text-slate-400">스타일 가이드</strong>를 미리 설정해두면 모든 프롬프트에 일관된 비주얼 규칙이 자동으로 반영됩니다.</li>
-        </ul>
-      </div>
+      {/* AI Result */}
+      {aiError && (
+        <div className="p-4 bg-rose-900/20 border border-rose-700/40 rounded-xl text-sm text-rose-400">
+          오류: {aiError}
+        </div>
+      )}
+      {aiResult && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-emerald-400">✨ AI 생성 결과</p>
+            <button
+              onClick={() => { navigator.clipboard.writeText(aiResult); }}
+              className="text-xs text-slate-400 hover:text-slate-200 underline"
+            >
+              결과 복사
+            </button>
+          </div>
+          <pre className="bg-slate-900 border border-emerald-800/40 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed overflow-auto max-h-[50vh]">
+            {aiResult}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
