@@ -1,4 +1,8 @@
+export type ProjectType = 'series' | 'short_film' | 'pilot' | 'etc';
+export type EtcSubType = 'ad' | 'mv' | 'shortform' | 'education' | 'experimental' | 'unknown';
+
 export interface ProjectInfo {
+  // Shared (used by promptBuilder)
   title: string;
   genre: string;
   artStyle: string;
@@ -7,6 +11,39 @@ export interface ProjectInfo {
   synopsis: string;
   setting: string;
   theme: string;
+
+  // Project type selector
+  projectType?: string;
+  etcSubType?: string;
+
+  // Series-specific
+  episodeCount?: string;
+  episodeRuntime?: string;
+  recurringStructure?: string;
+  seasonGoal?: string;
+  episodeThemes?: string;
+  mainCharacter?: string;
+  recurringCharacters?: string;
+
+  // Short film-specific
+  runtime?: string;
+  emotionalGoal?: string;
+  mainConflict?: string;
+  keyScenes?: string;
+  ending?: string;
+  reversal?: string;
+  emotionalArc?: string;
+
+  // Pilot-specific
+  validationPoints?: string;
+  characterAppeal?: string;
+  worldCore?: string;
+  expansionPotential?: string;
+
+  // Etc-specific
+  contentPurpose?: string;
+  coreMessage?: string;
+  targetResponse?: string;
 }
 
 export interface Character {
@@ -44,6 +81,28 @@ export type PromptType =
   | 'characterDesign'
   | 'dialogue'
   | 'sceneDirection'
-  | 'fullPackage';
+  | 'fullPackage'
+  | 'keyImage'
+  | 'backgroundSheet'
+  | 'video';
 
-export type ActiveTab = 'project' | 'characters' | 'scenes' | 'output' | 'guide';
+export type SimilarityLevel = 'low' | 'medium' | 'high' | 'exact';
+
+export interface ReferenceImageInfo {
+  hasImage: boolean;
+  similarityLevel: SimilarityLevel;
+  description: string;
+}
+
+export interface StyleGuide {
+  artStyle: string;
+  coloring: string;
+  lineStyle: string;
+  cameraRules: string;
+  aspectRatio: string;
+  mood: string;
+  negativeStyle: string;
+  negativePrompt: string;
+}
+
+export type ActiveTab = 'project' | 'characters' | 'scenes' | 'style' | 'output' | 'guide';
