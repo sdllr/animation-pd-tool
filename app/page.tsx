@@ -1,15 +1,22 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import type { ProjectInfo, Character, Scene, StyleGuide, ActiveTab } from '@/types';
+import type { ProjectInfo, Character, Scene, StyleGuide, ActiveTab, SavedProject } from '@/types';
 import ProjectInfoForm from '@/components/ProjectInfoForm';
 import CharacterManager from '@/components/CharacterManager';
 import SceneManager from '@/components/SceneManager';
 import StyleGuideForm from '@/components/StyleGuideForm';
 import PromptOutput from '@/components/PromptOutput';
 import GuideView from '@/components/GuideView';
+import ProjectManager from '@/components/ProjectManager';
 
 const STORAGE_KEY = 'anim-pd-save';
+const PROJECTS_KEY = 'anim-pd-projects';
+const CURRENT_PROJECT_ID_KEY = 'anim-pd-current-project-id';
+
+function makeProjectId() {
+  return Math.random().toString(36).slice(2, 9);
+}
 
 // ── PDF Korean font (loaded lazily, cached across exports) ──────────────────
 const PDF_FONT = 'MalgunGothic';
@@ -62,6 +69,7 @@ const defaultProject: ProjectInfo = {
 };
 
 const NAV_TABS: { id: ActiveTab; label: string; icon: string }[] = [
+  { id: 'projects',   label: '내 프로젝트',   icon: '📁' },
   { id: 'project',    label: '기획 시작',    icon: '🎨' },
   { id: 'characters', label: '캐릭터',       icon: '👥' },
   { id: 'scenes',     label: '씬 설정',      icon: '🎬' },
@@ -92,7 +100,10 @@ export default function Home() {
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [isSaving, setIsSaving]       = useState(false);
   const hasHydrated                   = useRef(false);
-  const importRef                     = useRef<HTMLInputElement>(null);
+
+  // Saved projects (multi-project management)
+  const [projects, setProjects]                 = useState<SavedProject[]>([]);
+  const [currentProjectId, setCurrentProjectId]  = useState<string | null>(null);
 
   // ── Load from localStorage on mount ──────────────────────────────────────
   useEffect(() => {
@@ -105,6 +116,10 @@ export default function Home() {
         if (saved.scenes)      setScenes(saved.scenes);
         if (saved.styleGuide)  setStyleGuide(saved.styleGuide);
       }
+      const rawProjects = localStorage.getItem(PROJECTS_KEY);
+      if (rawProjects) setProjects(JSON.parse(rawProjects));
+      const rawCurrentId = localStorage.getItem(CURRENT_PROJECT_ID_KEY);
+      if (rawCurrentId) setCurrentProjectId(rawCurrentId);
     } catch {}
     // Delay flag so auto-save doesn't fire with empty state during hydration
     setTimeout(() => { hasHydrated.current = true; }, 0);
@@ -123,6 +138,61 @@ export default function Home() {
     }, 800);
     return () => clearTimeout(t);
   }, [projectInfo, characters, scenes, styleGuide]);
+
+  // ── Persist saved-project list & current project pointer ─────────────────
+  useEffect(() => {
+    if (!hasHydrated.current) return;
+    try { localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects)); } catch {}
+  }, [projects]);
+
+  useEffect(() => {
+    if (!hasHydrated.current) return;
+    try {
+      if (currentProjectId) localStorage.setItem(CURRENT_PROJECT_ID_KEY, currentProjectId);
+      else localStorage.removeItem(CURRENT_PROJECT_ID_KEY);
+    } catch {}
+  }, [currentProjectId]);
+
+  // ── Saved-project CRUD ─────────────────────────────────────────────────────
+  const handleSaveAsNewProject = (name: string) => {
+    const project: SavedProject = {
+      id: makeProjectId(),
+      name,
+      updatedAt: Date.now(),
+      projectInfo, characters, scenes, styleGuide,
+    };
+    setProjects((prev) => [...prev, project]);
+    setCurrentProjectId(project.id);
+  };
+
+  const handleUpdateCurrentProject = () => {
+    if (!currentProjectId) return;
+    setProjects((prev) => prev.map((p) => (
+      p.id === currentProjectId
+        ? { ...p, projectInfo, characters, scenes, styleGuide, updatedAt: Date.now() }
+        : p
+    )));
+  };
+
+  const handleLoadProject = (id: string) => {
+    const project = projects.find((p) => p.id === id);
+    if (!project) return;
+    setProjectInfo(project.projectInfo);
+    setCharacters(project.characters);
+    setScenes(project.scenes);
+    setStyleGuide(project.styleGuide);
+    setCurrentProjectId(id);
+    setActiveTab('project');
+  };
+
+  const handleDeleteProject = (id: string) => {
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+    if (currentProjectId === id) setCurrentProjectId(null);
+  };
+
+  const handleRenameProject = (id: string, name: string) => {
+    setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, name } : p)));
+  };
 
   // ── Export ────────────────────────────────────────────────────────────────
   const [showExportMenu, setShowExportMenu] = useState(false);
@@ -346,6 +416,7 @@ export default function Home() {
         if (saved.characters)  setCharacters(saved.characters);
         if (saved.scenes)      setScenes(saved.scenes);
         if (saved.styleGuide)  setStyleGuide(saved.styleGuide);
+        setCurrentProjectId(null);
       } catch {
         alert('파일을 불러올 수 없습니다. 올바른 JSON 파일인지 확인해주세요.');
       }
@@ -399,6 +470,7 @@ export default function Home() {
                     <div className="absolute right-0 mt-1 w-36 bg-gray-100 border border-gray-300 rounded-lg shadow-xl z-50 overflow-hidden">
                       <button onClick={handleExportMD}   className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors">📝 Markdown</button>
                       <button onClick={handleExportPDF}  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors">🖨️ PDF (인쇄)</button>
+                      <button onClick={handleExportJSON} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors">📄 JSON (백업)</button>
                     </div>
                   </>
                 )}
@@ -410,7 +482,7 @@ export default function Home() {
                 className="px-2 py-1 rounded border border-gray-300 hover:border-gray-300 hover:text-gray-800 transition-colors cursor-pointer"
               >
                 불러오기
-                <input ref={importRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
+                <input type="file" accept=".json" className="hidden" onChange={handleImport} />
               </label>
             </div>
 
@@ -469,6 +541,7 @@ export default function Home() {
           <div className="mt-4 flex flex-col gap-2 md:hidden">
             <button onClick={handleExportMD}   className="px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">📝 MD 내보내기</button>
             <button onClick={handleExportPDF}  className="px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">🖨️ PDF 내보내기</button>
+            <button onClick={handleExportJSON} className="px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">📄 JSON 내보내기</button>
             <label className="px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer text-center">
               📥 불러오기
               <input type="file" accept=".json" className="hidden" onChange={handleImport} />
@@ -479,6 +552,18 @@ export default function Home() {
         {/* Main content */}
         <main className="flex-1 min-w-0 mb-16 md:mb-0">
           <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 min-h-full">
+            {activeTab === 'projects' && (
+              <ProjectManager
+                projects={projects}
+                currentProjectId={currentProjectId}
+                currentTitle={projectInfo.title}
+                onSaveAsNew={handleSaveAsNewProject}
+                onUpdateCurrent={handleUpdateCurrentProject}
+                onLoad={handleLoadProject}
+                onDelete={handleDeleteProject}
+                onRename={handleRenameProject}
+              />
+            )}
             {activeTab === 'project' && (
               <ProjectInfoForm data={projectInfo} onChange={setProjectInfo} />
             )}

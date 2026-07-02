@@ -105,4 +105,14 @@ export interface StyleGuide {
   negativePrompt: string;
 }
 
-export type ActiveTab = 'project' | 'characters' | 'scenes' | 'style' | 'output' | 'guide';
+export type ActiveTab = 'projects' | 'project' | 'characters' | 'scenes' | 'style' | 'output' | 'guide';
+
+export interface SavedProject {
+  id: string;
+  name: string;
+  updatedAt: number;
+  projectInfo: ProjectInfo;
+  characters: Character[];
+  scenes: Scene[];
+  styleGuide: StyleGuide;
+}
