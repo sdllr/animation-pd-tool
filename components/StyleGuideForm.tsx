@@ -19,8 +19,8 @@ export default function StyleGuideForm({ data, onChange }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">스타일 가이드</h2>
-        <p className="text-sm text-slate-400">작품 전체에 일관되게 적용되는 비주얼 규칙을 설정합니다. 프롬프트 생성 시 자동으로 반영됩니다.</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">스타일 가이드</h2>
+        <p className="text-sm text-gray-500">작품 전체에 일관되게 적용되는 비주얼 규칙을 설정합니다. 프롬프트 생성 시 자동으로 반영됩니다.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -72,10 +72,10 @@ export default function StyleGuideForm({ data, onChange }: Props) {
           rows={3} className="input-field resize-none" />
       </Field>
 
-      <div className="pt-2 border-t border-slate-800 space-y-4">
+      <div className="pt-2 border-t border-gray-200 space-y-4">
         <div>
-          <p className="text-sm font-bold text-slate-200 mb-0.5">금지사항</p>
-          <p className="text-xs text-slate-500">이미지/영상 생성 시 반드시 피해야 할 스타일이나 요소</p>
+          <p className="text-sm font-bold text-gray-800 mb-0.5">금지사항</p>
+          <p className="text-xs text-gray-400">이미지/영상 생성 시 반드시 피해야 할 스타일이나 요소</p>
         </div>
 
         <Field label="금지 스타일" hint="이 작품에서 절대 쓰면 안 되는 표현 방식">
@@ -92,8 +92,8 @@ export default function StyleGuideForm({ data, onChange }: Props) {
       </div>
 
       {(data.artStyle || data.coloring || data.negativeStyle) && (
-        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4">
-          <p className="text-xs font-semibold text-slate-400 mb-2">현재 스타일 요약</p>
+        <div className="bg-gray-100/50 border border-gray-300 rounded-xl p-4">
+          <p className="text-xs font-semibold text-gray-500 mb-2">현재 스타일 요약</p>
           <div className="flex flex-wrap gap-2">
             {data.artStyle     && <Tag>{data.artStyle}</Tag>}
             {data.coloring     && <Tag>{data.coloring}</Tag>}
@@ -111,8 +111,8 @@ export default function StyleGuideForm({ data, onChange }: Props) {
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-slate-300">{label}</label>
-      {hint && <p className="text-xs text-slate-500 -mt-0.5">{hint}</p>}
+      <label className="text-sm font-medium text-gray-700">{label}</label>
+      {hint && <p className="text-xs text-gray-400 -mt-0.5">{hint}</p>}
       {children}
     </div>
   );
@@ -120,9 +120,9 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 
 function Tag({ children, variant = 'default' }: { children: React.ReactNode; variant?: 'default' | 'mood' | 'negative' }) {
   const cls = {
-    default: 'bg-violet-900/40 text-violet-300 border-violet-700/50',
-    mood: 'bg-emerald-900/40 text-emerald-300 border-emerald-700/50',
-    negative: 'bg-rose-900/40 text-rose-300 border-rose-700/50',
+    default: 'bg-emerald-50/40 text-emerald-700 border-emerald-200/50',
+    mood: 'bg-emerald-50/40 text-emerald-700 border-emerald-200/50',
+    negative: 'bg-rose-50/40 text-rose-700 border-rose-200/50',
   }[variant];
   return (
     <span className={`text-xs px-2 py-0.5 rounded-full border ${cls}`}>{children}</span>

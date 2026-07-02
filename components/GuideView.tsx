@@ -4,17 +4,17 @@ export default function GuideView() {
   return (
     <div className="space-y-10 max-w-3xl">
       {/* Title */}
-      <div className="border-b border-slate-700 pb-6">
+      <div className="border-b border-gray-300 pb-6">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-lg font-bold text-white">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-lg font-bold text-white">
             PD
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">AI 애니메이션 PD 툴</h1>
-            <p className="text-sm text-slate-400">사용 가이드 — for Claude.ai</p>
+            <h1 className="text-2xl font-bold text-gray-900">AI 애니메이션 PD 툴</h1>
+            <p className="text-sm text-gray-500">사용 가이드 — for Claude.ai</p>
           </div>
         </div>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-gray-500 text-sm leading-relaxed">
           이 툴은 애니메이션 제작에 필요한 정보(작품·캐릭터·씬)를 입력하면,
           Claude.ai에 붙여넣을 수 있는 최적화된 프롬프트를 자동으로 조립해주는 프로덕션 어시스턴트입니다.
         </p>
@@ -29,11 +29,11 @@ export default function GuideView() {
             { step: '03', tab: '씬 설정', icon: '🎬', desc: '씬별 연출 정보 입력' },
             { step: '04', tab: '프롬프트 생성', icon: '✨', desc: '유형 선택 후 복사' },
           ].map((s) => (
-            <div key={s.step} className="relative bg-slate-800 rounded-xl p-4 border border-slate-700">
-              <span className="absolute top-3 right-3 text-xs font-bold text-slate-600">{s.step}</span>
+            <div key={s.step} className="relative bg-gray-100 rounded-xl p-4 border border-gray-300">
+              <span className="absolute top-3 right-3 text-xs font-bold text-gray-300">{s.step}</span>
               <div className="text-2xl mb-2">{s.icon}</div>
-              <p className="text-sm font-semibold text-white mb-1">{s.tab}</p>
-              <p className="text-xs text-slate-400">{s.desc}</p>
+              <p className="text-sm font-semibold text-gray-900 mb-1">{s.tab}</p>
+              <p className="text-xs text-gray-500">{s.desc}</p>
             </div>
           ))}
         </div>
@@ -44,7 +44,7 @@ export default function GuideView() {
 
       {/* Step 1 */}
       <Section title="1단계 — 작품 정보 입력" icon="🎨">
-        <p className="text-slate-400 text-sm mb-4">
+        <p className="text-gray-500 text-sm mb-4">
           제작할 애니메이션의 전반적인 방향성을 설정하는 단계입니다. 모든 프롬프트의 기반이 됩니다.
         </p>
         <Table
@@ -67,13 +67,13 @@ export default function GuideView() {
 
       {/* Step 2 */}
       <Section title="2단계 — 캐릭터 설정" icon="👥">
-        <p className="text-slate-400 text-sm mb-4">
+        <p className="text-gray-500 text-sm mb-4">
           등장인물을 원하는 만큼 추가하고 각각의 상세 정보를 입력합니다.
         </p>
-        <ol className="space-y-2 text-sm text-slate-300 mb-4">
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">①</span><span><strong className="text-white">+ 캐릭터 추가</strong> 버튼을 클릭해 새 캐릭터를 생성합니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">②</span><span>왼쪽 목록에서 캐릭터를 선택하면 오른쪽에 편집 폼이 나타납니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">③</span><span>캐릭터 이름 옆 <strong className="text-white">✕</strong>를 클릭해 삭제할 수 있습니다.</span></li>
+        <ol className="space-y-2 text-sm text-gray-700 mb-4">
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">①</span><span><strong className="text-gray-900">+ 캐릭터 추가</strong> 버튼을 클릭해 새 캐릭터를 생성합니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">②</span><span>왼쪽 목록에서 캐릭터를 선택하면 오른쪽에 편집 폼이 나타납니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">③</span><span>캐릭터 이름 옆 <strong className="text-gray-900">✕</strong>를 클릭해 삭제할 수 있습니다.</span></li>
         </ol>
         <Table
           headers={['항목', '설명']}
@@ -92,7 +92,7 @@ export default function GuideView() {
 
       {/* Step 3 */}
       <Section title="3단계 — 씬 설정" icon="🎬">
-        <p className="text-slate-400 text-sm mb-4">
+        <p className="text-gray-500 text-sm mb-4">
           스토리보드·대사·연출 프롬프트 생성에 직접 사용되는 씬별 정보를 입력합니다.
         </p>
         <Table
@@ -117,11 +117,11 @@ export default function GuideView() {
 
       {/* Step 4 */}
       <Section title="4단계 — 프롬프트 생성 및 복사" icon="✨">
-        <p className="text-slate-400 text-sm mb-4">
+        <p className="text-gray-500 text-sm mb-4">
           입력한 모든 정보를 바탕으로 Claude.ai에 최적화된 프롬프트를 자동 조립합니다.
         </p>
 
-        <h3 className="text-sm font-semibold text-slate-200 mb-3">5가지 프롬프트 유형</h3>
+        <h3 className="text-sm font-semibold text-gray-800 mb-3">5가지 프롬프트 유형</h3>
         <div className="space-y-2 mb-5">
           {[
             { icon: '🎞️', name: '스토리보드', when: '컷 단위 구도·카메라·대사 지시서가 필요할 때', output: '컷 번호, 앵글, 캐릭터 위치, 카메라 무브, 대사, 이펙트' },
@@ -130,26 +130,26 @@ export default function GuideView() {
             { icon: '🎬', name: '씬 연출 노트', when: 'PD 관점의 연출 전략과 방향이 필요할 때', output: '감정 목표, 카메라 전략, 색채/조명, 편집 리듬, 레퍼런스' },
             { icon: '📦', name: '전체 패키지', when: '첫 기획 단계에서 종합 프로덕션 가이드가 필요할 때', output: '작품 분석, 비주얼 콘셉트, 캐릭터 정리, 씬별 플랜, 제작 우선순위' },
           ].map((pt) => (
-            <div key={pt.name} className="bg-slate-800 rounded-xl p-4 border border-slate-700">
+            <div key={pt.name} className="bg-gray-100 rounded-xl p-4 border border-gray-300">
               <div className="flex items-start gap-3">
                 <span className="text-2xl flex-shrink-0">{pt.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white mb-1">{pt.name}</p>
-                  <p className="text-xs text-slate-400 mb-1.5"><span className="text-slate-500">언제: </span>{pt.when}</p>
-                  <p className="text-xs text-slate-500"><span className="text-slate-600">출력 내용: </span>{pt.output}</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-1">{pt.name}</p>
+                  <p className="text-xs text-gray-500 mb-1.5"><span className="text-gray-400">언제: </span>{pt.when}</p>
+                  <p className="text-xs text-gray-400"><span className="text-gray-300">출력 내용: </span>{pt.output}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <h3 className="text-sm font-semibold text-slate-200 mb-3">복사 및 사용 절차</h3>
-        <ol className="space-y-2 text-sm text-slate-300">
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">①</span><span>원하는 프롬프트 유형 아이콘을 클릭합니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">②</span><span>씬별 프롬프트라면 <strong className="text-white">대상 씬</strong> 드롭다운에서 씬을 선택합니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">③</span><span>미리보기 영역에서 생성된 프롬프트를 확인합니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">④</span><span><strong className="text-white">클립보드에 복사</strong> 버튼을 클릭합니다.</span></li>
-          <li className="flex gap-3"><span className="text-violet-400 font-bold flex-shrink-0">⑤</span><span><strong className="text-white">claude.ai</strong> 채팅창에 붙여넣기(<code className="bg-slate-700 px-1 rounded text-xs">Ctrl+V</code>)하고 전송합니다.</span></li>
+        <h3 className="text-sm font-semibold text-gray-800 mb-3">복사 및 사용 절차</h3>
+        <ol className="space-y-2 text-sm text-gray-700">
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">①</span><span>원하는 프롬프트 유형 아이콘을 클릭합니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">②</span><span>씬별 프롬프트라면 <strong className="text-gray-900">대상 씬</strong> 드롭다운에서 씬을 선택합니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">③</span><span>미리보기 영역에서 생성된 프롬프트를 확인합니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">④</span><span><strong className="text-gray-900">클립보드에 복사</strong> 버튼을 클릭합니다.</span></li>
+          <li className="flex gap-3"><span className="text-emerald-600 font-bold flex-shrink-0">⑤</span><span><strong className="text-gray-900">claude.ai</strong> 채팅창에 붙여넣기(<code className="bg-gray-200 px-1 rounded text-xs">Ctrl+V</code>)하고 전송합니다.</span></li>
         </ol>
       </Section>
 
@@ -164,10 +164,10 @@ export default function GuideView() {
             { title: '토큰 안내', desc: '프롬프트 미리보기 하단에 예상 토큰 수가 표시됩니다. Claude.ai 무료 플랜도 충분히 처리 가능한 수준입니다.' },
           ].map((tip) => (
             <div key={tip.title} className="flex gap-3">
-              <span className="text-violet-400 mt-0.5">▸</span>
+              <span className="text-emerald-600 mt-0.5">▸</span>
               <div>
-                <span className="text-sm font-semibold text-white">{tip.title}: </span>
-                <span className="text-sm text-slate-400">{tip.desc}</span>
+                <span className="text-sm font-semibold text-gray-900">{tip.title}: </span>
+                <span className="text-sm text-gray-500">{tip.desc}</span>
               </div>
             </div>
           ))}
@@ -182,7 +182,7 @@ export default function GuideView() {
 function Section({ title, icon, children }: { title: string; icon: string; children: React.ReactNode }) {
   return (
     <section className="space-y-4">
-      <h2 className="flex items-center gap-2 text-base font-bold text-white border-b border-slate-800 pb-2">
+      <h2 className="flex items-center gap-2 text-base font-bold text-gray-900 border-b border-gray-200 pb-2">
         <span>{icon}</span>
         {title}
       </h2>
@@ -193,22 +193,22 @@ function Section({ title, icon, children }: { title: string; icon: string; child
 
 function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-700">
+    <div className="overflow-x-auto rounded-xl border border-gray-300">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-slate-800">
+          <tr className="bg-gray-100">
             {headers.map((h) => (
-              <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-slate-400 uppercase tracking-wide">
+              <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 {h}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-800">
+        <tbody className="divide-y divide-gray-200">
           {rows.map((row, i) => (
-            <tr key={i} className="hover:bg-slate-800/50 transition-colors">
+            <tr key={i} className="hover:bg-gray-100/50 transition-colors">
               {row.map((cell, j) => (
-                <td key={j} className={`px-4 py-2.5 ${j === 0 ? 'font-medium text-slate-200 whitespace-nowrap' : 'text-slate-400'}`}>
+                <td key={j} className={`px-4 py-2.5 ${j === 0 ? 'font-medium text-gray-800 whitespace-nowrap' : 'text-gray-500'}`}>
                   {cell}
                 </td>
               ))}
@@ -222,7 +222,7 @@ function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
 
 function Callout({ type, children }: { type: 'tip' | 'info'; children: React.ReactNode }) {
   const styles = {
-    tip: 'bg-amber-950/40 border-amber-700/40 text-amber-300',
+    tip: 'bg-amber-950/40 border-amber-200/40 text-amber-700',
     info: 'bg-blue-950/40 border-blue-700/40 text-blue-300',
   };
   const labels = { tip: '💡 Tip', info: 'ℹ️ 참고' };

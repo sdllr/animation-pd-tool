@@ -54,8 +54,8 @@ export default function CharacterManager({ characters, onChange }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">캐릭터 설정</h2>
-        <p className="text-sm text-slate-400">작품에 등장하는 캐릭터를 추가하고 상세 설정을 입력해주세요.</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">캐릭터 설정</h2>
+        <p className="text-sm text-gray-500">작품에 등장하는 캐릭터를 추가하고 상세 설정을 입력해주세요.</p>
       </div>
 
       <div className="flex gap-4 flex-col lg:flex-row">
@@ -68,15 +68,15 @@ export default function CharacterManager({ characters, onChange }: Props) {
                 onClick={() => setActiveId(c.id)}
                 className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left ${
                   activeId === c.id
-                    ? 'bg-violet-600 text-white'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 <span className="truncate">{c.name || '(미입력)'}</span>
                 <span
                   role="button"
                   onClick={(e) => { e.stopPropagation(); removeCharacter(c.id); }}
-                  className="ml-2 text-slate-400 hover:text-rose-400 text-xs"
+                  className="ml-2 text-gray-500 hover:text-rose-400 text-xs"
                   title="삭제"
                 >
                   ✕
@@ -85,7 +85,7 @@ export default function CharacterManager({ characters, onChange }: Props) {
             ))}
             <button
               onClick={addCharacter}
-              className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-violet-700 hover:text-white transition-colors border border-dashed border-slate-600"
+              className="px-3 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-emerald-700 hover:text-white transition-colors border border-dashed border-gray-300"
             >
               + 캐릭터 추가
             </button>
@@ -213,7 +213,7 @@ export default function CharacterManager({ characters, onChange }: Props) {
           </div>
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <div className="text-center text-slate-500 py-12">
+            <div className="text-center text-gray-400 py-12">
               <div className="text-4xl mb-3">👤</div>
               <p>캐릭터를 추가하거나 선택해주세요</p>
             </div>
@@ -227,7 +227,7 @@ export default function CharacterManager({ characters, onChange }: Props) {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-slate-300">
+      <label className="text-sm font-medium text-gray-700">
         {label}
         {required && <span className="text-rose-400 ml-1">*</span>}
       </label>

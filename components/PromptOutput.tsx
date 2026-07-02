@@ -181,8 +181,8 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">프롬프트 생성</h2>
-        <p className="text-sm text-slate-400">저장된 작품 정보를 기반으로 Claude.ai에 붙여넣을 프롬프트를 자동으로 생성합니다.</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">프롬프트 생성</h2>
+        <p className="text-sm text-gray-500">저장된 작품 정보를 기반으로 Claude.ai에 붙여넣을 프롬프트를 자동으로 생성합니다.</p>
       </div>
 
       {/* Prompt type selector */}
@@ -193,8 +193,8 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
             onClick={() => setPromptType(pt.value)}
             className={`flex flex-col items-center gap-1 px-3 py-3 rounded-xl text-center transition-all ${
               promptType === pt.value
-                ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/20'
-                : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
+                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800'
             }`}
             title={pt.desc}
           >
@@ -206,34 +206,34 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
 
       {/* Reference image panel */}
       {isRefType && (
-        <div className="space-y-4 p-4 bg-slate-800/50 border border-slate-700 rounded-xl">
-          <p className="text-sm font-semibold text-slate-300">레퍼런스 이미지 <span className="text-slate-500 font-normal text-xs">(선택)</span></p>
+        <div className="space-y-4 p-4 bg-gray-100/50 border border-gray-300 rounded-xl">
+          <p className="text-sm font-semibold text-gray-700">레퍼런스 이미지 <span className="text-gray-400 font-normal text-xs">(선택)</span></p>
           {refImageDataUrl ? (
             <div className="flex items-start gap-3">
               <div className="relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={refImageDataUrl} alt="레퍼런스" className="max-h-40 rounded-lg border border-slate-600 object-contain" />
+                <img src={refImageDataUrl} alt="레퍼런스" className="max-h-40 rounded-lg border border-gray-300 object-contain" />
                 <button onClick={clearRefImage} className="absolute -top-2 -right-2 w-5 h-5 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-[10px] flex items-center justify-center" title="이미지 제거">✕</button>
               </div>
-              <div className="text-xs text-slate-400 mt-1 space-y-1">
+              <div className="text-xs text-gray-500 mt-1 space-y-1">
                 <p className="truncate max-w-[200px]">{refImageName}</p>
-                <button onClick={() => fileInputRef.current?.click()} className="text-violet-400 hover:text-violet-300 underline">다른 이미지로 교체</button>
+                <button onClick={() => fileInputRef.current?.click()} className="text-emerald-600 hover:text-emerald-700 underline">다른 이미지로 교체</button>
               </div>
             </div>
           ) : (
-            <label className="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-slate-600 rounded-xl cursor-pointer hover:border-violet-500 hover:bg-slate-800 transition-colors">
+            <label className="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-violet-500 hover:bg-gray-100 transition-colors">
               <span className="text-2xl">🖼️</span>
-              <span className="text-sm text-slate-400">클릭하여 레퍼런스 이미지 업로드</span>
+              <span className="text-sm text-gray-500">클릭하여 레퍼런스 이미지 업로드</span>
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleRefImageUpload} />
             </label>
           )}
           {refImageDataUrl && <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleRefImageUpload} />}
           <div>
-            <p className="text-xs font-medium text-slate-400 mb-2">레퍼런스 유사도</p>
+            <p className="text-xs font-medium text-gray-500 mb-2">레퍼런스 유사도</p>
             <div className="flex gap-2">
               {SIMILARITY_LEVELS.map((sl) => (
                 <button key={sl.value} onClick={() => setRefSimilarity(sl.value)} title={sl.description}
-                  className={`flex-1 px-2 py-2 rounded-lg text-center transition-colors ${refSimilarity === sl.value ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                  className={`flex-1 px-2 py-2 rounded-lg text-center transition-colors ${refSimilarity === sl.value ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                   <div className="text-xs font-semibold">{sl.label}</div>
                   <div className="text-[10px] opacity-70">{sl.pct}</div>
                 </button>
@@ -241,12 +241,12 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
             </div>
           </div>
           <div>
-            <label className="text-xs font-medium text-slate-400 mb-1 block">레퍼런스 추가 설명 <span className="text-slate-600">(선택)</span></label>
+            <label className="text-xs font-medium text-gray-500 mb-1 block">레퍼런스 추가 설명 <span className="text-gray-300">(선택)</span></label>
             <textarea value={refDescription} onChange={(e) => setRefDescription(e.target.value)}
               placeholder="참고하고 싶은 부분을 구체적으로 설명해주세요." rows={2} className="input-field resize-none text-sm" />
           </div>
           {refImageDataUrl && (
-            <p className="text-xs text-amber-400 bg-amber-900/20 border border-amber-800/30 rounded-lg px-3 py-2">
+            <p className="text-xs text-amber-700 bg-amber-50/20 border border-amber-200/30 rounded-lg px-3 py-2">
               💡 Claude.ai에서 이 프롬프트를 사용할 때 레퍼런스 이미지를 대화창에 함께 첨부해주세요.
             </p>
           )}
@@ -256,7 +256,7 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
       {/* Scene selector */}
       {promptType !== 'fullPackage' && promptType !== 'characterDesign' && promptType !== 'keyImage' && scenes.length > 0 && (
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium text-slate-300 flex-shrink-0">대상 씬:</label>
+          <label className="text-sm font-medium text-gray-700 flex-shrink-0">대상 씬:</label>
           <select value={selectedSceneId} onChange={(e) => setSelectedSceneId(e.target.value)} className="input-field flex-1 max-w-xs">
             {scenes.map((s, i) => (
               <option key={s.id} value={s.id}>#{s.number || i + 1} {s.title || '(제목 없음)'}</option>
@@ -266,8 +266,8 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
       )}
 
       {/* Info section checkboxes */}
-      <div className="p-3 bg-slate-800/40 border border-slate-700/60 rounded-xl">
-        <p className="text-xs font-semibold text-slate-400 mb-2">포함할 정보</p>
+      <div className="p-3 bg-gray-100/40 border border-gray-300/60 rounded-xl">
+        <p className="text-xs font-semibold text-gray-500 mb-2">포함할 정보</p>
         <div className="flex flex-wrap gap-2">
           {SECTION_LABELS.map(({ key, label }) => (
             <label key={key} className="flex items-center gap-1.5 cursor-pointer group">
@@ -275,9 +275,9 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
                 type="checkbox"
                 checked={sections[key]}
                 onChange={() => toggleSection(key)}
-                className="w-3.5 h-3.5 rounded accent-violet-500 cursor-pointer"
+                className="w-3.5 h-3.5 rounded accent-emerald-500 cursor-pointer"
               />
-              <span className={`text-xs transition-colors ${sections[key] ? 'text-slate-300' : 'text-slate-600'}`}>{label}</span>
+              <span className={`text-xs transition-colors ${sections[key] ? 'text-gray-700' : 'text-gray-300'}`}>{label}</span>
             </label>
           ))}
         </div>
@@ -285,18 +285,18 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
 
       {/* Missing fields warning */}
       {showWarning && (
-        <div className="p-4 bg-amber-900/20 border border-amber-700/40 rounded-xl space-y-3">
+        <div className="p-4 bg-amber-50/20 border border-amber-200/40 rounded-xl space-y-3">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-xs font-semibold text-amber-400">⚠ 프롬프트를 더 정확하게 만들려면 아래 정보가 필요합니다</p>
-            <button onClick={() => setDismissedWarning(true)} className="text-slate-500 hover:text-slate-300 text-xs flex-shrink-0">닫기</button>
+            <p className="text-xs font-semibold text-amber-700">⚠ 프롬프트를 더 정확하게 만들려면 아래 정보가 필요합니다</p>
+            <button onClick={() => setDismissedWarning(true)} className="text-gray-400 hover:text-gray-700 text-xs flex-shrink-0">닫기</button>
           </div>
           <ul className="space-y-1">
             {missing.map((m, i) => (
-              <li key={i} className="text-xs text-amber-300 flex items-center gap-2">
+              <li key={i} className="text-xs text-amber-700 flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full bg-amber-500 flex-shrink-0" />
                 {m.label}
                 {onNavigate && (
-                  <button onClick={() => onNavigate(m.tab)} className="text-violet-400 hover:text-violet-300 underline ml-1">입력하러 가기 →</button>
+                  <button onClick={() => onNavigate(m.tab)} className="text-emerald-600 hover:text-emerald-700 underline ml-1">입력하러 가기 →</button>
                 )}
               </li>
             ))}
@@ -304,21 +304,21 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => { setAiAutoFill(true); setDismissedWarning(true); }}
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-violet-700 hover:bg-violet-600 text-white transition-colors"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white transition-colors"
             >
               AI가 임시 보완
             </button>
             <button
               onClick={() => setDismissedWarning(true)}
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300 transition-colors"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 transition-colors"
             >
               일단 생성하기
             </button>
           </div>
           {aiAutoFill && (
-            <p className="text-xs text-violet-400 bg-violet-900/20 border border-violet-700/30 rounded-lg px-3 py-2">
+            <p className="text-xs text-emerald-600 bg-emerald-50/20 border border-emerald-200/30 rounded-lg px-3 py-2">
               ✓ AI 보완 적용 중 — 부족한 정보를 Claude가 판단하도록 프롬프트에 안내를 추가했습니다.
-              <button onClick={() => setAiAutoFill(false)} className="ml-2 underline text-violet-300">취소</button>
+              <button onClick={() => setAiAutoFill(false)} className="ml-2 underline text-emerald-700">취소</button>
             </p>
           )}
         </div>
@@ -326,7 +326,7 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
 
       {/* Info bar */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-4 text-xs text-slate-500">
+        <div className="flex items-center gap-4 text-xs text-gray-400">
           <span>{charCount.toLocaleString()}자</span>
           <span>~{tokenEstimate.toLocaleString()} 토큰 추정</span>
         </div>
@@ -336,8 +336,8 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
             disabled={!prompt}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               copied ? 'bg-emerald-600 text-white'
-              : prompt ? 'bg-slate-700 hover:bg-slate-600 text-slate-200'
-              : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+              : prompt ? 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
             {copied ? '✓ 복사됨!' : '복사'}
@@ -365,9 +365,9 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
             }}
             disabled={!prompt || aiLoading}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-              aiLoading ? 'bg-violet-700 text-violet-300 cursor-wait'
-              : prompt ? 'bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-500/20'
-              : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+              aiLoading ? 'bg-emerald-700 text-emerald-700 cursor-wait'
+              : prompt ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
             }`}
           >
             {aiLoading ? '생성 중...' : '✨ AI로 생성'}
@@ -378,35 +378,35 @@ export default function PromptOutput({ projectInfo, characters, scenes, styleGui
       {/* Prompt preview */}
       <div className="relative">
         {prompt ? (
-          <pre className="bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed overflow-auto max-h-[40vh]">
+          <pre className="bg-gray-50 border border-gray-300 rounded-xl p-4 text-sm text-gray-700 whitespace-pre-wrap font-mono leading-relaxed overflow-auto max-h-[40vh]">
             {prompt}
           </pre>
         ) : (
-          <div className="bg-slate-900 border border-dashed border-slate-700 rounded-xl p-8 text-center">
+          <div className="bg-gray-50 border border-dashed border-gray-300 rounded-xl p-8 text-center">
             <div className="text-4xl mb-3">📝</div>
-            <p className="text-slate-500 text-sm">작품 정보, 캐릭터, 씬 정보를 입력하면<br />여기에 프롬프트가 자동으로 생성됩니다.</p>
+            <p className="text-gray-400 text-sm">작품 정보, 캐릭터, 씬 정보를 입력하면<br />여기에 프롬프트가 자동으로 생성됩니다.</p>
           </div>
         )}
       </div>
 
       {/* AI Result */}
       {aiError && (
-        <div className="p-4 bg-rose-900/20 border border-rose-700/40 rounded-xl text-sm text-rose-400">
+        <div className="p-4 bg-rose-50/20 border border-rose-200/40 rounded-xl text-sm text-rose-400">
           오류: {aiError}
         </div>
       )}
       {aiResult && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-emerald-400">✨ AI 생성 결과</p>
+            <p className="text-sm font-semibold text-emerald-600">✨ AI 생성 결과</p>
             <button
               onClick={() => { navigator.clipboard.writeText(aiResult); }}
-              className="text-xs text-slate-400 hover:text-slate-200 underline"
+              className="text-xs text-gray-500 hover:text-gray-800 underline"
             >
               결과 복사
             </button>
           </div>
-          <pre className="bg-slate-900 border border-emerald-800/40 rounded-xl p-4 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed overflow-auto max-h-[50vh]">
+          <pre className="bg-gray-50 border border-emerald-200/40 rounded-xl p-4 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed overflow-auto max-h-[50vh]">
             {aiResult}
           </pre>
         </div>

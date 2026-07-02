@@ -24,8 +24,8 @@ const PROJECT_TYPE_CARDS: {
     label: '시리즈물',
     subLabel: '여러 회차로 이어지는 연재형 애니메이션',
     detail: '세계관 · 캐릭터 일관성 · 회차 확장성 중심으로 기획합니다.',
-    border: 'border-violet-500/40 hover:border-violet-400 hover:bg-violet-500/10',
-    iconBg: 'bg-violet-500/20 text-violet-300',
+    border: 'border-emerald-500/40 hover:border-emerald-400 hover:bg-emerald-500/10',
+    iconBg: 'bg-emerald-500/20 text-emerald-700',
   },
   {
     type: 'short_film',
@@ -34,7 +34,7 @@ const PROJECT_TYPE_CARDS: {
     subLabel: '한 편 안에서 완결되는 애니메이션',
     detail: '주제 · 감정선 · 기승전결 · 엔딩 중심으로 기획합니다.',
     border: 'border-emerald-500/40 hover:border-emerald-400 hover:bg-emerald-500/10',
-    iconBg: 'bg-emerald-500/20 text-emerald-300',
+    iconBg: 'bg-emerald-500/20 text-emerald-700',
   },
   {
     type: 'pilot',
@@ -43,7 +43,7 @@ const PROJECT_TYPE_CARDS: {
     subLabel: '시리즈화 가능성을 테스트하는 샘플 영상',
     detail: '캐릭터 매력 · 톤 · 세계관 반응 중심으로 기획합니다.',
     border: 'border-amber-500/40 hover:border-amber-400 hover:bg-amber-500/10',
-    iconBg: 'bg-amber-500/20 text-amber-300',
+    iconBg: 'bg-amber-500/20 text-amber-700',
   },
   {
     type: 'etc',
@@ -52,7 +52,7 @@ const PROJECT_TYPE_CARDS: {
     subLabel: '광고, 뮤직비디오, 숏폼 클립, 실험 영상 등',
     detail: '목적에 맞는 영상 구조를 함께 정합니다.',
     border: 'border-rose-500/40 hover:border-rose-400 hover:bg-rose-500/10',
-    iconBg: 'bg-rose-500/20 text-rose-300',
+    iconBg: 'bg-rose-500/20 text-rose-700',
   },
 ];
 
@@ -90,10 +90,10 @@ export default function ProjectInfoForm({ data, onChange }: Props) {
     return (
       <div className="space-y-8">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">작품 기획 시작하기</h2>
-          <p className="text-slate-400 leading-relaxed">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">작품 기획 시작하기</h2>
+          <p className="text-gray-500 leading-relaxed">
             어떤 형태의 애니메이션을 만들고 싶나요?<br />
-            <span className="text-slate-500 text-sm">
+            <span className="text-gray-400 text-sm">
               작품 유형을 선택하면 AI PD가 필요한 질문을 이어가며 기획을 도와드립니다.
             </span>
           </p>
@@ -103,14 +103,14 @@ export default function ProjectInfoForm({ data, onChange }: Props) {
             <button
               key={card.type}
               onClick={() => selectType(card.type)}
-              className={`text-left p-5 rounded-2xl border-2 bg-slate-800/40 transition-all ${card.border}`}
+              className={`text-left p-5 rounded-2xl border-2 bg-gray-100/40 transition-all ${card.border}`}
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 ${card.iconBg}`}>
                 {card.icon}
               </div>
-              <p className="text-base font-bold text-white mb-1">{card.label}</p>
-              <p className="text-sm text-slate-300 mb-2">{card.subLabel}</p>
-              <p className="text-xs text-slate-500">{card.detail}</p>
+              <p className="text-base font-bold text-gray-900 mb-1">{card.label}</p>
+              <p className="text-sm text-gray-700 mb-2">{card.subLabel}</p>
+              <p className="text-xs text-gray-400">{card.detail}</p>
             </button>
           ))}
         </div>
@@ -126,17 +126,17 @@ export default function ProjectInfoForm({ data, onChange }: Props) {
       <div className="space-y-6">
         <TypeHeader card={typeCard} onBack={clearType} />
         <div>
-          <p className="text-sm font-semibold text-slate-300 mb-3">어떤 유형에 가장 가까운가요?</p>
+          <p className="text-sm font-semibold text-gray-700 mb-3">어떤 유형에 가장 가까운가요?</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {ETC_SUB_OPTIONS.map((opt) => (
               <button
                 key={opt.type}
                 onClick={() => update('etcSubType', opt.type)}
-                className="text-left p-4 rounded-xl border border-slate-700 bg-slate-800/50 hover:border-rose-500/50 hover:bg-rose-500/10 transition-all"
+                className="text-left p-4 rounded-xl border border-gray-300 bg-gray-100/50 hover:border-rose-500/50 hover:bg-rose-500/10 transition-all"
               >
                 <span className="text-xl">{opt.icon}</span>
-                <p className="text-sm font-semibold text-white mt-2">{opt.label}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{opt.desc}</p>
+                <p className="text-sm font-semibold text-gray-900 mt-2">{opt.label}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{opt.desc}</p>
               </button>
             ))}
           </div>
@@ -170,20 +170,20 @@ function TypeHeader({
   onBack: () => void;
 }) {
   return (
-    <div className="flex items-center gap-4 pb-2 border-b border-slate-800">
+    <div className="flex items-center gap-4 pb-2 border-b border-gray-200">
       <button
         onClick={onBack}
-        className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1"
+        className="text-xs text-gray-400 hover:text-gray-700 transition-colors flex items-center gap-1"
       >
         ← 유형 변경
       </button>
       <div className="flex items-center gap-2">
         <span className="text-lg">{card.icon}</span>
-        <span className="text-sm font-bold text-white">{card.label}</span>
+        <span className="text-sm font-bold text-gray-900">{card.label}</span>
         {subLabel && (
           <>
-            <span className="text-slate-700">·</span>
-            <span className="text-sm text-slate-400">{subLabel}</span>
+            <span className="text-gray-300">·</span>
+            <span className="text-sm text-gray-500">{subLabel}</span>
           </>
         )}
       </div>
@@ -196,8 +196,8 @@ function TypeHeader({
 function Q({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-semibold text-slate-200">{label}</label>
-      {hint && <p className="text-xs text-slate-500 -mt-0.5">{hint}</p>}
+      <label className="text-sm font-semibold text-gray-800">{label}</label>
+      {hint && <p className="text-xs text-gray-400 -mt-0.5">{hint}</p>}
       {children}
     </div>
   );
@@ -206,9 +206,9 @@ function Q({ label, hint, children }: { label: string; hint?: string; children: 
 function Divider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 pt-1">
-      <div className="h-px flex-1 bg-slate-800" />
-      <span className="text-[11px] font-semibold text-slate-600 uppercase tracking-widest">{label}</span>
-      <div className="h-px flex-1 bg-slate-800" />
+      <div className="h-px flex-1 bg-gray-100" />
+      <span className="text-[11px] font-semibold text-gray-300 uppercase tracking-widest">{label}</span>
+      <div className="h-px flex-1 bg-gray-100" />
     </div>
   );
 }

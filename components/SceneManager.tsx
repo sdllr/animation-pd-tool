@@ -71,8 +71,8 @@ export default function SceneManager({ scenes, onChange }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-white mb-1">씬 설정</h2>
-        <p className="text-sm text-slate-400">각 씬의 상세 정보를 입력해주세요. 씬이 구체적일수록 더 정확한 프롬프트가 생성됩니다.</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-1">씬 설정</h2>
+        <p className="text-sm text-gray-500">각 씬의 상세 정보를 입력해주세요. 씬이 구체적일수록 더 정확한 프롬프트가 생성됩니다.</p>
       </div>
 
       <div className="flex gap-4 flex-col lg:flex-row">
@@ -85,8 +85,8 @@ export default function SceneManager({ scenes, onChange }: Props) {
                 onClick={() => setActiveId(s.id)}
                 className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left ${
                   activeId === s.id
-                    ? 'bg-violet-600 text-white'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 <span className="truncate">
@@ -96,7 +96,7 @@ export default function SceneManager({ scenes, onChange }: Props) {
                 <span
                   role="button"
                   onClick={(e) => { e.stopPropagation(); removeScene(s.id); }}
-                  className="ml-2 text-slate-400 hover:text-rose-400 text-xs flex-shrink-0"
+                  className="ml-2 text-gray-500 hover:text-rose-400 text-xs flex-shrink-0"
                   title="삭제"
                 >
                   ✕
@@ -105,7 +105,7 @@ export default function SceneManager({ scenes, onChange }: Props) {
             ))}
             <button
               onClick={addScene}
-              className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-violet-700 hover:text-white transition-colors border border-dashed border-slate-600"
+              className="px-3 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-emerald-700 hover:text-white transition-colors border border-dashed border-gray-300"
             >
               + 씬 추가
             </button>
@@ -197,8 +197,8 @@ export default function SceneManager({ scenes, onChange }: Props) {
                       onClick={() => updateScene(active.id, 'mood', active.mood === m ? '' : m)}
                       className={`px-2 py-1 rounded text-xs transition-colors ${
                         active.mood.includes(m)
-                          ? 'bg-violet-600 text-white'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
                     >
                       {m}
@@ -280,7 +280,7 @@ export default function SceneManager({ scenes, onChange }: Props) {
           </div>
         ) : (
           <div className="flex-1 flex items-center justify-center">
-            <div className="text-center text-slate-500 py-12">
+            <div className="text-center text-gray-400 py-12">
               <div className="text-4xl mb-3">🎬</div>
               <p>씬을 추가하거나 선택해주세요</p>
             </div>
@@ -294,7 +294,7 @@ export default function SceneManager({ scenes, onChange }: Props) {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-slate-300">
+      <label className="text-sm font-medium text-gray-700">
         {label}
         {required && <span className="text-rose-400 ml-1">*</span>}
       </label>
